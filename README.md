@@ -1,6 +1,7 @@
 # Meta API course - LittleLemon API
 
-Course link: https://www.coursera.org/learn/apis/lecture/sn2Ez/create-a-django-project-using-pipenv
+Course link: https://www.coursera.org/learn/apis/lecture/sn2Ez/create-a-django-project-using-pipenv  
+Django documentation: https://docs.djangoproject.com/en/5.1/
 
 ## Commands to setup the Django project
 
@@ -16,6 +17,64 @@ python manage.py runserver
 # change default port to 9000
 python manage.py runserver 9000
 ```
+
+extra APP and config:
+
+```
+# 0 - add APP to project's settings INSTALLED_APPS
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'BookListAPI',
+]
+# 1 - create models inside models.py
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+        author = models.CharField(max_length=255)
+        price = models.DecimalField(max_digits=5,decimal_places=2)
+
+        class Meta:
+            indexes = [
+                models.Index(fields=["price"]),
+            ]
+# 2 - register models inside admin.py
+admin.site.register(Book)
+# 3 - create migration with makemigrations - 
+python manage.py makemigrations
+# 4 - execute migrate command to apply changes to the database -
+python manage.py migrate
+# 5 - create superuser to access admin page
+python manage.py createsuperuser
+# 6 - add url.py file to the APP folder. add urlpatterns.
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+# Add URL configuration for the path() function here
+    path('books', views.books)
+]
+# 7 - import API url paths to the project paths in url.py
+path('api/', include('BookListAPI.urls')),
+# 8 - modify the views file. add a view for books
+from django.shortcuts import render
+from django.db import IntegrityErrorexception # exception in Django, a web framework for Python, raised when there is a violation of the database integrity constraints.
+from django.http import JsonResponsefunction # JsonResponse is a subclass that helps us to create a JSON-encoded response
+from .models import Book # import our Book db model
+from django.views.decorators.csrf import csrf_exempt # Mark a view function as being exempt from the CSRF view protection - turn off this protection
+from django.forms.models import model_to_dict # Return a dict containing the data in instance suitable for passing as a Form's initial keyword argument.
+
+# Create your views here.
+
+@csrf_exempt
+def books(request):
+    if request.method == 'GET':
+```
+
 
 ## Tools
 
@@ -59,4 +118,7 @@ API Security:
 * Cross-Origin Resource Sharing CORS policy and server firewalls. Limits the 3d party and IP addresses that can access your API.
 
 Acess control:
-* Role: each role has a collection of well defined privileges that authorize them to perform tasks.
+* Role: each role has a collection of well defined privileges that authorize them to perform tasks. Authentication != Authorization.
+    * During authentication, the API web server checks the clients' access token or username/password, and provides her with an access token for the following requests.
+    * During requests, the authorization layer checks if the client is authorized to perform the action.
+* The Django admin panel provides support for the creation of roles (groups) and for privileges managemnt based on the django projects' models.
