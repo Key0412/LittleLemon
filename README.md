@@ -31,10 +31,9 @@ python manage.py runserver
 python manage.py runserver 9000
 ```
 
-extra APP and config:
-
+#### extra: recurrent configurations
+- add APP to project's settings INSTALLED_APPS
 ```
-# 0 - add APP to project's settings INSTALLED_APPS
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,7 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BookListAPI',
 ]
-# 1 - create models inside models.py
+
+```
+* create models inside models.py
+```
 class Book(models.Model):
     title = models.CharField(max_length=255)
         author = models.CharField(max_length=255)
@@ -54,38 +56,47 @@ class Book(models.Model):
             indexes = [
                 models.Index(fields=["price"]),
             ]
-# 2 - register models inside admin.py
+```
+* register models inside admin.py
+```
 admin.site.register(Book)
-# 3 - create migration with makemigrations - 
+```
+- create migration with makemigrations
+- execute migrate command to apply changes to the database
+```
 python manage.py makemigrations
-# 4 - execute migrate command to apply changes to the database -
 python manage.py migrate
-# 5 - create superuser to access admin page
+```
+* create superuser to access admin page
+```
 python manage.py createsuperuser
-# 6 - add url.py file to the APP folder. add urlpatterns.
+```
+* add url.py file to the APP folder. add urlpatterns/routes.
+```
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
-# Add URL configuration for the path() function here
     path('books', views.books)
 ]
-# 7 - import API url paths to the project paths in url.py
+```
+* import API url paths to the project paths in url.py
+```
 path('api/', include('BookListAPI.urls')),
-# 8 - modify the views file. add a view for books
+```
+* modify the views file. e.g. add a view for books.
+```
 from django.shortcuts import render
-from django.db import IntegrityErrorexception # exception in Django, a web framework for Python, raised when there is a violation of the database integrity constraints.
-from django.http import JsonResponsefunction # JsonResponse is a subclass that helps us to create a JSON-encoded response
+from django.db import IntegrityErrorexception 
+from django.http import JsonResponsefunction 
 from .models import Book # import our Book db model
-from django.views.decorators.csrf import csrf_exempt # Mark a view function as being exempt from the CSRF view protection - turn off this protection
-from django.forms.models import model_to_dict # Return a dict containing the data in instance suitable for passing as a Form's initial keyword argument.
-
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+from django.forms.models import model_to_dict
 
 @csrf_exempt
 def books(request):
     if request.method == 'GET':
+        ···
 ```
 
 
@@ -117,7 +128,7 @@ Restfull:
 * Uniform
 * Code on demand
 
-Best practices:
+### Best practices:
 * KISS - keep it simple stupid: One API - One task.
 * Filter, Order, and Paginate: filter large result sets and sort them. Api should be capable of filtering results.Show only a certain number of items per page.
 * Versioning: in general, support only two versions of any given resource.
@@ -134,13 +145,13 @@ API Security:
     * 403 - forbidden. user is not allowed
 * Cross-Origin Resource Sharing CORS policy and server firewalls. Limits the 3d party and IP addresses that can access your API.
 
-Access control:
+### Access control:
 * Role: each role has a collection of well defined privileges that authorize them to perform tasks. Authentication != Authorization.
     * During authentication, the API web server checks the clients' access token or username/password, and provides her with an access token for the following requests.
     * During requests, the authorization layer checks if the client is authorized to perform the action.
 * The Django admin panel provides support for the creation of roles (groups) and for privileges managemnt based on the django projects' models.
 
-# DRF - django rest framework
+## DRF - django rest framework
 
 DRF is a toolkit built on top of the Django web framework. It comes with many helpful utility classes and objects that can help developers build robust APIs quickly.  
 * Easy to integrate with plain django
@@ -152,3 +163,21 @@ DRF is a toolkit built on top of the Django web framework. It comes with many he
 * Support for authentication. Enable social connections.
 
 Guide: [DRF in a container](https://pradeepc.hashnode.dev/django-rest-framework-1-dockerize-your-project)
+
+To install DRF:
+```
+pip install djangorestframework
+```
+To use it in your Django project, go to your projects' settings in `settings.py` and append *'rest_framework'* to the list.
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'BookListAPI',
+    'rest_framework'
+]
+```
