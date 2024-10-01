@@ -181,3 +181,5 @@ INSTALLED_APPS = [
     'rest_framework'
 ]
 ```
+
+The `@api_view` decorator is one of the most important on DRF. It allows defining which HTTP methods a view accepts, it turns the API request into an organized browseable page with request information, it provides a way to implement throtling and rating, and authentication.
