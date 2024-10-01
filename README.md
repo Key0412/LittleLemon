@@ -1,9 +1,22 @@
 # Meta API course - LittleLemon API
 
-Course link: https://www.coursera.org/learn/apis/lecture/sn2Ez/create-a-django-project-using-pipenv  
-Django documentation: https://docs.djangoproject.com/en/5.1/
+[Course link](https://www.coursera.org/learn/apis/)  
+[Django documentation](https://docs.djangoproject.com/en/5.1/)
 
 ## Commands to setup the Django project
+
+```
+# Get python image
+docker pull python
+# Create container from image 
+docker run -dit --name <container_name> [options] python
+# optionally map paths from OS to container: -v <OS path>:<container path> 
+
+# start container
+docker start <container_name>
+# access bash
+docker exec -it <container_name> bash
+```
 
 ```
 # Install django
@@ -78,15 +91,19 @@ def books(request):
 
 ## Tools
 
-* Insomnia: REST API client used to store, organize, and execute REST API requests. https://insomnia.rest/
-* Postman: REST API development framework to make HTTP requests, store, test, debug. https://www.postman.com/
-    * Postman-echo:service you can use to test your REST clients and make sample API calls. https://www.postman.com/postman/published-postman-templates/documentation/ae2ja6x/postman-echo?ctx=documentation
+* [Insomnia](https://insomnia.rest/): REST API client used to store, organize, and execute REST API requests.
+* [Postman](https://www.postman.com/): REST API development framework to make HTTP requests, store, test, debug.
+    * [Postman-echo](https://www.postman.com/postman/published-postman-templates/documentation/ae2ja6x/postman-echo?ctx=documentation
+    ):service you can use to test your REST clients and make sample API calls. 
+* [Curl](https://curl.se/): allows making HTTP requests.
+* [httpbin.org](https://httpbin.org/): Request and Response Service httpbin.org. Httpbin.org is an open-source web service that allows you to make HTTP calls without any additional installations or dependencies. 
+* [httpie](https://httpie.io/): open-source API testing
+* [Django](https://www.djangoproject.com/): high-level Python web framework that encourages rapid development and clean, pragmatic design. 
+* [HTTP reesponse status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+* Mock API data generators and Mock API endpoints: A mock API imitates the real API endpoint with fake data so that the client application developers can start development before the actual API is developed.
+    * [Mockaroo data generator](https://www.mockaroo.com/)
+    * [Mockapi mock api endpoints](https://mockapi.io/)
 
-* Curl: allows making HTTP requests. https://curl.se/
-* httpbin.org: https://httpbin.org/. Request and Response Service httpbin.org. Httpbin.org is an open-source web service that allows you to make HTTP calls without any additional installations or dependencies. 
-* httpie: https://httpie.io/. open-source API testing
-* Django: high-level Python web framework that encourages rapid development and clean, pragmatic design. https://www.djangoproject.com/
-* HTTP reesponse status codes: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 
 ## REST APIS
 
@@ -117,8 +134,21 @@ API Security:
     * 403 - forbidden. user is not allowed
 * Cross-Origin Resource Sharing CORS policy and server firewalls. Limits the 3d party and IP addresses that can access your API.
 
-Acess control:
+Access control:
 * Role: each role has a collection of well defined privileges that authorize them to perform tasks. Authentication != Authorization.
     * During authentication, the API web server checks the clients' access token or username/password, and provides her with an access token for the following requests.
     * During requests, the authorization layer checks if the client is authorized to perform the action.
 * The Django admin panel provides support for the creation of roles (groups) and for privileges managemnt based on the django projects' models.
+
+# DRF - django rest framework
+
+DRF is a toolkit built on top of the Django web framework. It comes with many helpful utility classes and objects that can help developers build robust APIs quickly.  
+* Easy to integrate with plain django
+* we browsable API for quick experiments
+* Flexible request and response processing
+* Human readable HTTP status codes
+* Built-in view set classes make it easy to create a functional CRUD
+* Built-in serializers. Data model <-> Native python datatypes.
+* Support for authentication. Enable social connections.
+
+Guide: [DRF in a container](https://pradeepc.hashnode.dev/django-rest-framework-1-dockerize-your-project)
