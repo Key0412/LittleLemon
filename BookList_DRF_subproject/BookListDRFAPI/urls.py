@@ -4,13 +4,14 @@ from rest_framework.routers import SimpleRouter, DefaultRouter
 
 urlpatterns = [
     # Regular routes
-    path('books', views.books),
+    # path('books/', views.books),
     
     # Routing to a class method
     path('orders', views.Orders.listOrders),
     
     # Routing class-based views
-    path('books/<int:pk>', views.BookView.as_view()),
+    path('books', views.BookView.as_view()),
+    path('books/<int:pk>', views.Book.as_view()),
     
     # Routing classes that extend viewsets
     # path('books-viewset', views.BookViewset.as_view(
